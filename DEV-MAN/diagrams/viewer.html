@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>Package Dependencies</h1>
+    <div class="mermaid">
+        graph TD
+            A[pyproject.toml] --> B[crews package]
+            A --> C[timeline package]
+            B --> D[base_crew.py]
+            C --> D
+            C --> E[analyzer_crew.py]
+            D --> F[crewai]
+            D --> G[langchain]
+    </div>
+
+    <h1>Project Structure</h1>
+    <div class="mermaid">
+        graph TD
+            A[WORKSTATION] --> B[crews]
+            A --> C[timeline]
+            A --> D[DEV-MAN]
+            B --> E[base_crew.py]
+            B --> F[__init__.py]
+            C --> G[analyzer_crew.py]
+            C --> H[models.py]
+            D --> I[diagrams]
+            D --> J[docs]
+    </div>
+
+    <h1>Dependency Flow</h1>
+    <div class="mermaid">
+        graph TD
+            A[Project Dependencies] --> B[Core]
+            A --> C[Development]
+            B --> D[crewai]
+            B --> E[langchain]
+            B --> F[sqlalchemy]
+            C --> G[pytest]
+            C --> H[black]
+            C --> I[ruff]
+    </div>
+</body>
+</html> 

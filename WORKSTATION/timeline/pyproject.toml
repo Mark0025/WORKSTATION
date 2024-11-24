@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "timeline"
+version = "0.1.0"
+description = "Timeline tracking package"
+dependencies = [
+    "sqlalchemy>=2.0.23",
+    "watchdog>=3.0.0",
+    # ... only timeline-specific dependencies
+]
+
+[tool.setuptools]
+packages = ["timeline"]  # Just timeline package 

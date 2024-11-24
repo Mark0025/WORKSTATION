@@ -1,0 +1,74 @@
+# Python virtual environments
+.venv*/
+venv*/
+env/
+.env
+.env.*
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+timeline/data/*.db
+
+# Logs and temp files
+*.log
+logs/
+timeline/logs/
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/
+*.tmp
+
+# Local development files
+.env
+.env.local
+.env.*.local
+.env.not-working
+
+# Test coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Documentation build
+docs/_build/
+site/
+
+# Node modules (if using any JS tools)
+node_modules/
+
+# Sensitive files
+*.csv
+@workstation/ 
+*.

@@ -1,0 +1,207 @@
+# General rules
+python:
+  formatter: "black"
+  linter: "ruff"
+  max_line_length: 88
+
+# Dictionary of approved technical terms to ignore in spellcheck
+technical_terms:
+  - nginx
+  - postgresql
+  - redis
+  - mongodb
+  - rabbitmq
+  - elasticsearch
+  - portainer
+  - crewai
+  - langchain
+  - openai
+  - dotenv
+  - loguru
+  - duckduckgo
+  - serper
+  - aiohttp
+  - pytest
+  - asyncio
+  - sqlalchemy
+  - psycopg2
+  - venv
+
+# Environment management
+environments:
+  crew:
+    path: "crews/venv/crewai-env2"
+    activate_cmd: "source crews/venv/crewai-env2/bin/activate"
+    packages:
+      - "loguru==0.6.0"
+      - "crewai==0.10.0"
+      - "langchain-openai==0.0.2"
+      - "langchain-community==0.0.24"
+      - "python-dotenv"
+      - "duckduckgo-search"
+      - "setuptools"
+
+  api_test:
+    path: "api_tester/venv"
+    activate_cmd: "source api_tester/venv/bin/activate"
+    packages:
+      - "requests>=2.31.0"
+      - "aiohttp>=3.9.1"
+      - "pytest>=7.4.3"
+      - "pytest-asyncio>=0.23.2"
+
+  main:
+    path: ".venv"
+    activate_cmd: "source .venv/bin/activate"
+    packages:
+      - "python-dotenv==0.21.1"
+      - "loguru==0.6.0"
+      - "sqlalchemy>=2.0.23"
+      - "psycopg2-binary>=2.9.9"
+
+# File-specific rules
+files:
+  "crews/*.py":
+    env: "crew"
+    linting:
+      ignore_terms: ${technical_terms}
+      
+  "api_tester/*.py":
+    env: "api_test"
+    linting:
+      ignore_terms: ${technical_terms}
+
+  "*.md":
+    spellcheck: true
+    ignore_terms: ${technical_terms}
+
+# CrewAI specific settings
+crews:
+  path_pattern: "crews/**/*.py"
+  environment:
+    activate: "source crews/venv/crewai-env/bin/activate"
+    python: "crews/venv/crewai-env/bin/python"
+  tools:
+    - DuckDuckGoSearchRun
+    - SerpAPIWrapper
+    - FileReadTool
+    - DirectoryReadTool
+    - WebsiteSearchTool
+
+# Docker service patterns
+docker:
+  services:
+    - nginx
+    - postgres
+    - redis
+    - mongodb
+    - rabbitmq
+    - elasticsearch
+    - portainer
+  path_pattern: "docker/**/*.{yml,yaml}"
+
+# API patterns
+api:
+  base_url: "http://localhost:5500"
+  timeout: 30
+  retry_attempts: 3
+
+# OpenAI configuration
+openai:
+  required_env:
+    - "OPENAI_API_KEY"
+  models:
+    - "gpt-4"
+    - "gpt-3.5-turbo"
+  test_script:
+    path: "api_tester/openai_test.py"
+    template: |
+      from dotenv import load_dotenv
+      import os
+      from openai import OpenAI
+      from loguru import logger
+      from pathlib import Path
+
+      # Configure logging
+      log_path = Path("api_tester/logs")
+      log_path.mkdir(parents=True, exist_ok=True)
+      logger.add(
+          log_path / "openai_test_{time}.log",
+          rotation="500 MB",
+          level="INFO",
+          format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}"
+      )
+
+      def test_openai():
+          """Test OpenAI API using latest client format"""
+          try:
+              # Initialize the client with ONLY the API key
+              client = OpenAI()
+              
+              # Simple test request using new API format
+              response = client.chat.completions.create(
+                  model="gpt-3.5-turbo",
+                  messages=[
+                      {"role": "user", "content": "Tell me a quick joke about programming"}
+                  ]
+              )
+              
+              logger.success("✅ OpenAI API key is working!")
+              print(f"Response: {response.choices[0].message.content}")
+              return True
+              
+          except Exception as e:
+              logger.error(f"❌ OpenAI API test failed: {str(e)}")
+              return False
+
+      if __name__ == "__main__":
+          logger.info("Testing OpenAI API key...")
+          test_openai()
+
+  # Latest working dependencies
+  dependencies:
+    - "openai>=1.0.0"  # Using latest OpenAI API
+    - "python-dotenv"
+    - "loguru==0.6.0"
+
+  # Best practices
+  api_patterns:
+    - use_client_instance: true  # Always instantiate client
+    - no_organization_id: true   # Don't use org ID
+    - proper_error_handling: true
+    - logging_required: true
+
+# Python Package Rules
+
+## Directory Structure
+- Every Python package directory must have __init__.py
+- Package hierarchy must match import statements
+- Subpackages need their own __init__.py files
+
+## Import Rules
+- Use relative imports within packages (.models)
+- Use absolute imports across packages (timeline.models)
+- Follow directory structure in imports
+
+## Package Management
+- Install with -e for development
+- Keep dependencies in pyproject.toml
+- Use virtual environments
+
+## Common Issues
+- Missing __init__.py files
+- Import path doesn't match directory
+- Package not installed in editable mode
+
+## Best Practices
+- Create __init__.py for all package dirs
+- Match import paths to directory structure
+- Use proper relative/absolute imports
+
+## Debugging Tips
+- Check PYTHONPATH for package roots
+- Verify __init__.py exists at each level
+- Use python -m to run scripts
+- Check package installation with pip list
+
+## Package Structure Example

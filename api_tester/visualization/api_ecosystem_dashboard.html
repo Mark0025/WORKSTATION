@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Ecosystem Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Menu -->
+    <nav class="bg-white shadow-lg mb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="text-xl font-bold">WORKSTATION Diagrams</div>
+                <div class="flex space-x-4">
+                    <a href="/api_ecosystem" class="px-3 py-2 rounded-md bg-blue-500 text-white">API Ecosystem</a>
+                    <a href="/docker_services" class="px-3 py-2 rounded-md hover:bg-blue-100">Docker Services</a>
+                    <a href="/automation_flows" class="px-3 py-2 rounded-md hover:bg-blue-100">Automation Flows</a>
+                    <a href="/data_flows" class="px-3 py-2 rounded-md hover:bg-blue-100">Data Flows</a>
+                    <a href="/credentials" class="px-3 py-2 rounded-md hover:bg-blue-100">Credentials Map</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold mb-8">API Ecosystem Status</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">API Integration Map</h2>
+            <div class="mermaid">
+                graph TD
+                    subgraph AI_Services[AI & Language Models]
+                        OpenAI[OpenAI]:::active
+                        CrewAI[CrewAI]:::active
+                        Claude[Claude]:::pending
+                        HuggingFace[Hugging Face]:::pending
+                        AutoGen[AutoGen]:::active
+                        LangChain[Lang Chain]:::pending
+                        DeepGram[Deep Gram]:::pending
+                    end
+
+                    subgraph Marketing[Marketing & CRM]
+                        GHL[GoHighLevel]:::active
+                        MailGun[Mail Gun]:::pending
+                    end
+
+                    subgraph Search[Search & Research]
+                        SERP[SERP API]:::active
+                        GoogleAPI[Google API]:::pending
+                        Zapier[Zapier]:::pending
+                    end
+
+                    subgraph Infrastructure[Development Tools]
+                        GitHub[GitHub]:::pending
+                        Docker[Docker]:::pending
+                        JIRA[JIRA]:::pending
+                        Slack[Slack]:::pending
+                        Zoom[Zoom]:::pending
+                        Weaviate[Weaviate]:::pending
+                        CloudFlare[Cloud Flare]:::pending
+                    end
+
+                    %% Connections
+                    OpenAI --> CrewAI
+                    OpenAI --> AutoGen
+                    SERP --> CrewAI
+                    GHL --> MailGun
+                    HuggingFace --> AutoGen
+                    LangChain --> OpenAI
+
+                    classDef active fill:#a7f3d0,stroke:#059669
+                    classDef pending fill:#fef3c7,stroke:#d97706
+                    classDef inactive fill:#fecaca,stroke:#dc2626
+            </div>
+        </div>
+
+        <!-- Status Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Working APIs -->
+            <div class="bg-green-100 rounded-lg shadow p-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-4">Working APIs</h3>
+                <ul class="space-y-2" id="workingApis">
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                        OpenAI
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                        CrewAI
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                        SERP API
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                        GoHighLevel
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Pending Verification -->
+            <div class="bg-yellow-100 rounded-lg shadow p-6">
+                <h3 class="text-xl font-semibold text-yellow-800 mb-4">Needs Verification</h3>
+                <ul class="space-y-2" id="pendingApis">
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                        Claude
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                        Hugging Face
+                    </li>
+                    <li class="flex items-center">
+                        <span class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                        Mail Gun
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Integration Details -->
+            <div class="bg-blue-100 rounded-lg shadow p-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-4">Integration Details</h3>
+                <div class="space-y-4">
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-semibold">AI Stack</h4>
+                        <p class="text-sm text-gray-600">OpenAI powers CrewAI and AutoGen</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-semibold">Marketing Stack</h4>
+                        <p class="text-sm text-gray-600">GoHighLevel integrates with Mail Gun</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-semibold">Research Stack</h4>
+                        <p class="text-sm text-gray-600">SERP API provides data for CrewAI</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+    </script>
+</body>
+</html>

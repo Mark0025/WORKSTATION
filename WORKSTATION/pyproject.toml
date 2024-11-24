@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workstation"
+version = "0.1.0"
+description = "Main workstation package"
+dependencies = [
+    "crewai==0.10.0",
+    "langchain-openai==0.0.2",
+    # ... other dependencies
+]
+
+[tool.setuptools]
+packages = ["crews", "timeline"]  # Includes both packages 

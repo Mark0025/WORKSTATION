@@ -1,0 +1,29 @@
+# Environment configurations for different components
+[environments]
+# Main WORKSTATION environment
+main = { path = ".venv", packages = [
+    "python-dotenv",
+    "loguru",
+    "sqlalchemy",
+    "psycopg2-binary"
+]}
+
+# CrewAI specific environment
+crew = { path = "crews/venv/crewai-env", packages = [
+    "crewai",
+    "langchain",
+    "openai",
+    "python-dotenv",
+    "loguru",
+    "duckduckgo-search",
+    "google-serper",
+    "langchain-community"
+]}
+
+# API testing environment
+api_test = { path = "api_tester/venv", packages = [
+    "requests",
+    "aiohttp",
+    "pytest",
+    "pytest-asyncio"
+]} 
